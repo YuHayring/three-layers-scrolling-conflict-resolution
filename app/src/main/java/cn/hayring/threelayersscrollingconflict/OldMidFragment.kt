@@ -10,14 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayoutMediator
 
 class OldMidFragment: Fragment() {
 
@@ -69,7 +67,7 @@ class OldMidFragment: Fragment() {
         PagerAdapter() {
         override fun getCount() = 5
 
-        val views = arrayOf(NestScrollRecyclerView(context), NestScrollRecyclerView(context) ,NestScrollRecyclerView(context) ,NestScrollRecyclerView(context), NestScrollRecyclerView(context)).also {
+        val views = arrayOf(NestScrollVerticalRecyclerView(context), NestScrollVerticalRecyclerView(context) ,NestScrollVerticalRecyclerView(context) ,NestScrollVerticalRecyclerView(context), NestScrollVerticalRecyclerView(context)).also {
             it.forEach {
                 it.adapter = EndFragment.SimpleAdapter(context)
                 it.layoutManager = GridLayoutManager(context, 2)
@@ -97,7 +95,9 @@ class OldMidFragment: Fragment() {
         @SuppressLint("RestrictedApi")
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SimpleViewHolder(AppCompatTextView(context).also {
             it.gravity = Gravity.CENTER
-            it.setPadding(com.google.android.material.internal.ViewUtils.dpToPx(context, 20).toInt())
+            val paddingH = com.google.android.material.internal.ViewUtils.dpToPx(context, 100).toInt()
+            val paddingV = com.google.android.material.internal.ViewUtils.dpToPx(context, 20).toInt()
+            it.setPadding(paddingH, paddingV, paddingH, paddingV)
         })
 
         override fun onBindViewHolder(holder: SimpleViewHolder, position: Int) {

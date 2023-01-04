@@ -9,7 +9,7 @@
     android:tag="mid Old LinearLayout"
     >
 
-    <cn.hayring.threelayersscrollingconflict.NestScrollRecyclerView
+    <cn.hayring.threelayersscrollingconflict.NestScrollHorizontalRecyclerView
         android:tag="mid Old RecyclerView"
         android:id="@+id/tab_recycler"
         android:layout_width="match_parent"

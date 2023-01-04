@@ -5,7 +5,7 @@
     android:tag="end FrameLayout"
     >
 
-    <cn.hayring.threelayersscrollingconflict.NestScrollRecyclerView
+    <cn.hayring.threelayersscrollingconflict.NestScrollVerticalRecyclerView
         android:tag="end RecyclerView"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
