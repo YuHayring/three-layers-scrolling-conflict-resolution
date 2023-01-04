@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.hayring.threelayersscrollingconflict.LogTouchFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:tag="end FrameLayout"
+    >
+
+    <cn.hayring.threelayersscrollingconflict.NestScrollRecyclerView
+        android:tag="end RecyclerView"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</cn.hayring.threelayersscrollingconflict.LogTouchFrameLayout>
