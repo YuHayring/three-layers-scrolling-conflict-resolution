@@ -20,8 +20,29 @@ class NestScrollVerticalRecyclerView: RecyclerView {
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN) {
+            solve = false
+            startX = event.x
+            startY = event.y
             Log.v("NestScrollRVV_Touch", "event: ${event.hashCode()} view: $tag action: ${event?.getName()} x: ${event?.x} y: ${event?.y}————dispatchTouchEvent——disallow")
             parent.requestDisallowInterceptTouchEvent(true)
+        }
+
+        if (!solve && event?.action == MotionEvent.ACTION_MOVE) {
+            if (event.x != startX && event.y != startY) {
+                dx = abs(event.x - startX)
+                dy = abs(event.y - startY)
+                Log.d("RVVOnTouchListener", "dx: $dx, dy: $dy")
+                if (tangent * dy < dx) {
+                    LogTouchLinearLayout.interceptDisallowTree = true
+                    parent?.requestDisallowInterceptTouchEvent(false)
+                    LogTouchLinearLayout.interceptDisallowTree = false
+                    Log.v("NestScrollRVV_Touch", "event: ${event.hashCode()} view: $tag action: ${event?.getName()} x: ${event?.x} y: ${event?.y}————dispatchTouchEvent——return-false")
+                    Log.d("RVVOnTouchListener", "requestDisallowInterceptTouchEvent")
+                    solve = true
+                    return false
+                }
+                solve = true
+            }
         }
         return super.dispatchTouchEvent(event)
     }
@@ -29,6 +50,10 @@ class NestScrollVerticalRecyclerView: RecyclerView {
     var startX = 0f
 
     var startY = 0f
+
+    var dx = 0f
+
+    var dy = 0f
 
 
 
@@ -41,28 +66,6 @@ class NestScrollVerticalRecyclerView: RecyclerView {
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         LogOnTouchListener.log(this, event)
-        if (event?.action == MotionEvent.ACTION_DOWN) {
-            solve = false
-            startX = event.x
-            startY = event.y
-        }
-        if (!solve && event?.action == MotionEvent.ACTION_MOVE) {
-            if (event.x != startX && event.y != startY) {
-                val dx = abs(event.x - startX)
-                val dy = abs(event.y - startY)
-                Log.d("RVVOnTouchListener", "dx: $dx, dy: $dy")
-                if (tangent * dy < dx) {
-                    LogTouchLinearLayout.interceptDisallowTree = true
-                    parent?.requestDisallowInterceptTouchEvent(false)
-                    LogTouchLinearLayout.interceptDisallowTree = false
-                    LogOnTouchListener.logResult(this, event, false)
-                    Log.d("RVVOnTouchListener", "requestDisallowInterceptTouchEvent")
-                    solve = true
-                    return false
-                }
-                solve = true
-            }
-        }
         return super.onTouchEvent(event).also {
             LogOnTouchListener.logResult(this, event, it)
         }

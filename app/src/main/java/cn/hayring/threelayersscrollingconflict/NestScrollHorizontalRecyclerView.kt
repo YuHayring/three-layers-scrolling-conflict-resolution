@@ -25,28 +25,12 @@ class NestScrollHorizontalRecyclerView: RecyclerView {
         if (event?.action == MotionEvent.ACTION_DOWN) {
             Log.v("NestScrollRVH_Touch", "event: ${event.hashCode()} view: $tag action: ${event?.getName()} x: ${event?.x} y: ${event?.y}————dispatchTouchEvent——disallow")
             parent.requestDisallowInterceptTouchEvent(true)
-            solve = false
-        }
-        return super.dispatchTouchEvent(event)
-    }
-
-    var startX = 0f
-
-
-    companion object {
-        const val tangent = 2
-    }
-
-    var solve = false
-
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        LogOnTouchListener.log(this, event)
-        if (event?.action == MotionEvent.ACTION_DOWN) {
             startX = event.x
+            solve = false
         }
         if (!solve && event?.action == MotionEvent.ACTION_MOVE) {
             if (event.x != startX) {
-                val dx = event.x - startX
+                dx = event.x - startX
                 Log.d("RVHOnTouchListener", "dx: $dx")
                 (layoutManager as LinearLayoutManager).let {
                     if (adapter != null) {
@@ -55,7 +39,7 @@ class NestScrollHorizontalRecyclerView: RecyclerView {
                             LogTouchLinearLayout.interceptDisallowTree = true
                             parent?.requestDisallowInterceptTouchEvent(false)
                             LogTouchLinearLayout.interceptDisallowTree = false
-                            LogOnTouchListener.logResult(this, event, false)
+                            Log.v("NestScrollRVH_Touch", "event: ${event.hashCode()} view: $tag action: ${event?.getName()} x: ${event?.x} y: ${event?.y}————dispatchTouchEvent——return-false")
                             Log.d("RVHOnTouchListener", "requestDisallowInterceptTouchEvent")
                             solve = true
                             return false
@@ -65,6 +49,19 @@ class NestScrollHorizontalRecyclerView: RecyclerView {
                 solve = true
             }
         }
+        return super.dispatchTouchEvent(event)
+    }
+
+    var startX = 0f
+
+    var dx = 0f
+
+
+
+    var solve = false
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        LogOnTouchListener.log(this, event)
         return super.onTouchEvent(event).also {
             LogOnTouchListener.logResult(this, event, it)
         }

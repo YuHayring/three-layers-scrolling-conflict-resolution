@@ -7,6 +7,7 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:tag="mid Old LinearLayout"
+    app:conflictTarget="1"
     >
 
     <cn.hayring.threelayersscrollingconflict.NestScrollHorizontalRecyclerView
